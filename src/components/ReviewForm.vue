@@ -19,9 +19,9 @@ const onSubmit = () => {
   };
   emit("review-submitted", productReview);
 
-  name = "";
-  content = "";
-  rating = null;
+  review.name = "";
+  review.content = "";
+  review.rating = null;
 };
 </script>
 
