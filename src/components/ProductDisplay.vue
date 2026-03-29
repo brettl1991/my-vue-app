@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
+import ReviewForm from "./ReviewForm.vue";
+import ReviewList from "./ReviewList.vue";
 import socksGreenImage from "@/assets/images/socks_green.jpeg";
 import socksBlueImage from "@/assets/images/socks_blue.jpeg";
 
@@ -11,6 +13,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["add-to-cart"]);
+
 const product = ref("Socks");
 const brand = ref("Vue Mastery");
 
@@ -22,6 +25,8 @@ const variants = ref([
   { id: 2234, color: "green", image: socksGreenImage, quantity: 50 },
   { id: 2235, color: "blue", image: socksBlueImage, quantity: 0 },
 ]);
+
+const reviews = ref([]);
 
 const title = computed(() => {
   return brand.value + " " + product.value;
@@ -43,10 +48,15 @@ const shipping = computed(() => {
   }
 });
 
-const addToCart = () =>
+const addToCart = () => {
   emit("add-to-cart", variants.value[selectedVariant.value].id);
+};
+
 const updateVariant = (index) => {
   selectedVariant.value = index;
+};
+const addReview = (review) => {
+  reviews.value.push(review);
 };
 </script>
 
@@ -81,5 +91,7 @@ const updateVariant = (index) => {
         </button>
       </div>
     </div>
+    <ReviewList v-if="reviews.length > 0" :reviews="reviews" />
+    <ReviewForm @review-submitted="addReview" />
   </div>
 </template>
